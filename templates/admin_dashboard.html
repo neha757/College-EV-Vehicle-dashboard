@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - EV Requisition System{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p class="mb-0">Manage all electric vehicle requisition requests</p>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        All Requisition Requests
+    </div>
+    <div class="card-body">
+        {% if requisitions %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Purpose</th>
+                        <th>Date</th>
+                        <th>Route</th>
+                        <th>Vehicle</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requisitions %}
+                    <tr>
+                        <td>{{ req['id'] }}</td>
+                        <td>{{ req['name'] }}</td>
+                        <td>{{ req['department'] }}</td>
+                        <td>{{ req['purpose'][:40] }}{% if req['purpose']|length > 40 %}...{% endif %}</td>
+                        <td>{{ req['date'] }}</td>
+                        <td>{{ req['from_location'] }} → {{ req['to_location'] }}</td>
+                        <td>{{ req['vehicle_type'] }}</td>
+                        <td>
+                            {% if req['status'] == 'Pending' %}
+                                <span class="badge badge-pending">Pending</span>
+                            {% elif req['status'] == 'Approved' %}
+                                <span class="badge badge-approved">Approved</span>
+                            {% else %}
+                                <span class="badge badge-rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if req['status'] == 'Pending' %}
+                                <a href="{{ url_for('update_status', req_id=req['id'], status='Approved') }}" 
+                                   class="btn btn-success btn-sm"
+                                   onclick="return confirm('Approve this requisition?')">
+                                    Approve
+                                </a>
+                                <a href="{{ url_for('update_status', req_id=req['id'], status='Rejected') }}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Reject this requisition?')">
+                                    Reject
+                                </a>
+                            {% else %}
+                                <span class="text-muted small">{{ req['status'] }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-4">No requisitions submitted yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-warning">{{ requisitions|selectattr('status', 'equalto', 'Pending')|list|length }}</h3>
+                <p class="text-muted mb-0">Pending Requests</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-success">{{ requisitions|selectattr('status', 'equalto', 'Approved')|list|length }}</h3>
+                <p class="text-muted mb-0">Approved Requests</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-danger">{{ requisitions|selectattr('status', 'equalto', 'Rejected')|list|length }}</h3>
+                <p class="text-muted mb-0">Rejected Requests</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

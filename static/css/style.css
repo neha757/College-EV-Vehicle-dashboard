@@ -1,0 +1,171 @@
+:root {
+    --primary-orange: #FF6B35;
+    --secondary-orange: #F7931E;
+    --background-light: #F8F9FA;
+    --text-dark: #343A40;
+    --success-green: #28A745;
+    --danger-red: #DC3545;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    padding: 10px 24px;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-orange);
+    border-color: var(--secondary-orange);
+}
+
+.btn-success {
+    background-color: var(--success-green);
+    border-color: var(--success-green);
+}
+
+.btn-danger {
+    background-color: var(--danger-red);
+    border-color: var(--danger-red);
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+    padding: 16px;
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 2px solid var(--primary-orange);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    padding: 16px;
+    margin: -16px -16px 16px -16px;
+    border-radius: 8px 8px 0 0;
+}
+
+.form-control, .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: var(--primary-orange);
+    color: white;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.badge-pending {
+    background-color: #FFC107;
+    color: var(--text-dark);
+}
+
+.badge-approved {
+    background-color: var(--success-green);
+    color: white;
+}
+
+.badge-rejected {
+    background-color: var(--danger-red);
+    color: white;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    max-width: 450px;
+    width: 100%;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-header h2 {
+    color: var(--primary-orange);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: #6c757d;
+}
+
+.alert {
+    border-radius: 6px;
+    padding: 12px 16px;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+    color: white;
+    padding: 32px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.user-info {
+    color: white;
+    margin-right: 20px;
+}
+
+.btn-logout {
+    background-color: rgba(255,255,255,0.2);
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-logout:hover {
+    background-color: rgba(255,255,255,0.3);
+    color: white;
+}

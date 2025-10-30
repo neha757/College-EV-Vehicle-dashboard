@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - EV Requisition System{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Student Dashboard</h1>
+    <p class="mb-0">Submit and track your electric vehicle requisition requests</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Submit New Requisition
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('submit_requisition') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ session.name }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="department" name="department" value="{{ session.department }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="purpose" class="form-label">Purpose of Trip</label>
+                        <textarea class="form-control" id="purpose" name="purpose" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date Required</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="from_location" class="form-label">From Location</label>
+                            <input type="text" class="form-control" id="from_location" name="from_location" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="to_location" class="form-label">To Location</label>
+                            <input type="text" class="form-control" id="to_location" name="to_location" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                        <select class="form-select" id="vehicle_type" name="vehicle_type" required>
+                            <option value="">Select vehicle type...</option>
+                            <option value="Sedan">Sedan</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Van">Van</option>
+                            <option value="Bus">Bus</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">Submit Requisition</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                My Requisitions
+            </div>
+            <div class="card-body">
+                {% if requisitions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Purpose</th>
+                                <th>Vehicle</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for req in requisitions %}
+                            <tr>
+                                <td>{{ req['date'] }}</td>
+                                <td>{{ req['purpose'][:30] }}{% if req['purpose']|length > 30 %}...{% endif %}</td>
+                                <td>{{ req['vehicle_type'] }}</td>
+                                <td>
+                                    {% if req['status'] == 'Pending' %}
+                                        <span class="badge badge-pending">Pending</span>
+                                    {% elif req['status'] == 'Approved' %}
+                                        <span class="badge badge-approved">Approved</span>
+                                    {% else %}
+                                        <span class="badge badge-rejected">Rejected</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center py-4">No requisitions submitted yet. Use the form to submit your first request!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Login - EV Requisition System{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>🚗 EV Requisition System</h2>
+            <p>College Electric Vehicle Management Portal</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="mb-4">Sign In to Your Account</h5>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-muted small">
+                    <p class="mb-2"><strong>Demo Accounts:</strong></p>
+                    <p class="mb-1">Admin: username <code>admin</code>, password <code>admin123</code></p>
+                    <p class="mb-0">Student: username <code>student</code>, password <code>student123</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
