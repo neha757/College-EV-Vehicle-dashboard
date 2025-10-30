@@ -2,13 +2,16 @@ import os
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SESSION_SECRET', 'dev-secret-key-change-in-production')
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['WTF_CSRF_ENABLED'] = True
 Session(app)
+csrf = CSRFProtect(app)
 
 def get_db_connection():
     conn = sqlite3.connect('ev_requisition.db')
@@ -75,8 +78,8 @@ def submit_requisition():
     if 'user_id' not in session or session.get('role') == 'admin':
         return redirect(url_for('login'))
     
-    name = request.form['name']
-    department = request.form['department']
+    name = session['name']
+    department = session['department']
     purpose = request.form['purpose']
     date = request.form['date']
     from_location = request.form['from_location']
@@ -113,10 +116,13 @@ def admin_dashboard():
     
     return render_template('admin_dashboard.html', requisitions=requisitions)
 
-@app.route('/admin/update_status/<int:req_id>/<status>')
-def update_status(req_id, status):
+@app.route('/admin/update_status', methods=['POST'])
+def update_status():
     if 'user_id' not in session or session.get('role') != 'admin':
         return redirect(url_for('login'))
+    
+    req_id = request.form.get('req_id', type=int)
+    status = request.form.get('status')
     
     if status not in ['Approved', 'Rejected']:
         flash('Invalid status', 'danger')

@@ -50,16 +50,18 @@
                         </td>
                         <td>
                             {% if req['status'] == 'Pending' %}
-                                <a href="{{ url_for('update_status', req_id=req['id'], status='Approved') }}" 
-                                   class="btn btn-success btn-sm"
-                                   onclick="return confirm('Approve this requisition?')">
-                                    Approve
-                                </a>
-                                <a href="{{ url_for('update_status', req_id=req['id'], status='Rejected') }}" 
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Reject this requisition?')">
-                                    Reject
-                                </a>
+                                <form method="POST" action="{{ url_for('update_status') }}" style="display: inline;" onsubmit="return confirm('Approve this requisition?')">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <input type="hidden" name="req_id" value="{{ req['id'] }}"/>
+                                    <input type="hidden" name="status" value="Approved"/>
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('update_status') }}" style="display: inline;" onsubmit="return confirm('Reject this requisition?')">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <input type="hidden" name="req_id" value="{{ req['id'] }}"/>
+                                    <input type="hidden" name="status" value="Rejected"/>
+                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                </form>
                             {% else %}
                                 <span class="text-muted small">{{ req['status'] }}</span>
                             {% endif %}
